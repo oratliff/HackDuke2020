@@ -43,6 +43,7 @@
             .then(result => alert(JSON.parse(result).body))
             .catch(error => console.log('error', error));
         }
+
     </script>
 </head>
 <body>
@@ -53,6 +54,7 @@
         <input type="text" id="lName">
         <!-- set button onClick method to call function we defined passing input values as parameters -->
         <button type="button" onclick="callAPI(document.getElementById('fName').value,document.getElementById('lName').value)">Call API</button>
+        <img src="images/perm_weights_sprint1.png" alt="Sprint 1 Permutation Weights" height = 300>
     </form>
 </body>
 </html>
