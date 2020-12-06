@@ -2,12 +2,37 @@
 
 <html>
 	<head>
-		<title>VA Affordable Housing Intitiative</title>
+		<title>Price Calculator</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets2/css/main.css" />
 	</head>
-	<body>
+  <body class="subpage">
+
+    <script>
+        // define the callAPI function that takes a first name and last name as parameters
+        var callAPI = (NumCars,NumBeans,NumBaths)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"NumCars":NumCars,"NumBaths":NumBaths,"NumBeans":NumBeans});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("https://b4le6lzc3l.execute-api.us-east-2.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+
+    </script>
 
 		<!-- Header -->
 			<header id="header">
@@ -15,7 +40,7 @@
 					<a href="index.html" class="logo">Virginia<strong> Housing Intitiative</strong> </a>
 					<nav id="nav">
 						<a href="index.html">Home</a>
-						<a href="index.html">Trends</a>
+						<a href="trends.html">Trends</a>
 						<a href="estimate.html">Price Estimate</a>
 						<a href="model.html">Our Model</a>
 					</nav>
@@ -23,76 +48,207 @@
 				</div>
 			</header>
 
-		<!-- Banner -->
-			<section id="banner">
-				<div class="inner">
-					<header>
-						<h1>Explore Virginia's Affordable Housing</h1>
-					</header>
+      <!-- Main -->
+  			<section id="main" class="wrapper">
+  				<div class="inner">
+  					<header class="align-center">
+  						<h2>Price Estimator</h2>
+  						<p>Input your preferred property features and rank their importance to you.<br />We'll let you know a fair price.</p>
+  					</header>
 
-					<div class="flex ">
+            <hr class="major" />
 
-						<div>
-							<span class="icon fa-car"></span>
-							<h3>Discover</h3>
-							<p>Virginia's Best Value in Real Estate</p>
-						</div>
+            <!-- Form -->
 
-						<div>
-							<span class="icon fa-camera"></span>
-							<h3>Estimate</h3>
-							<p>Housing Prices with Custom Feature Selection</p>
-						</div>
+              <form method="post" action="#">
+                <div class="row uniform">
+                  <!-- Elementary School -->
+                  <div class="6u">
+                    <div class="select-wrapper">
+                      <select name="elementary_school" id="elementary_school">
+                        <option value="">- Elementary School -</option>
+                        <option value="1">School 1</option>
+                        <option value="1">School 2</option>
+                        <option value="1">School 3</option>
+                        <option value="1">School 4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- Elementary School Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="elem-priority-low" name="elem_priority" checked>
+                    <label for="elem-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="elem-priority-normal" name="elem_priority">
+                    <label for="elem-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small)">
+                    <input type="radio" id="elem-priority-high" name="elem_priority">
+                    <label for="elem-priority-high">High Priority</label>
+                  </div>
 
-						<div>
-							<span class="icon fa-bug"></span>
-							<h3>Analyze</h3>
-							<p>Our Data and Valuation Metrics</p>
-						</div>
+                  <!-- Siding -->
+                  <div class="6u">
+                    <div class="select-wrapper">
+                      <select name="siding" id="siding">
+                        <option value="">- Siding -</option>
+                        <option value="1">Siding 1</option>
+                        <option value="1">Siding 2</option>
+                        <option value="1">Siding 3</option>
+                        <option value="1">Siding 4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- Siding Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="siding-priority-low" name="siding" checked>
+                    <label for="siding-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="siding-priority-normal" name="siding">
+                    <label for="siding-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small)">
+                    <input type="radio" id="siding-priority-high" name="siding">
+                    <label for="siding-priority-high">High Priority</label>
+                  </div>
 
-					</div>
+                  <!-- Number of Rooms-->
+                  <div class="6u 12u$(xsmall)">
+                    <input type="number" name="numRooms" id="numRooms" value="" placeholder="Number of Rooms">
+                  </div>
+                  <!-- Number of Rooms Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="numRooms-priority-low" name="numRooms" checked>
+                    <label for="numRooms-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="numRooms-priority-normal" name="numRooms">
+                    <label for="numRooms-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small) radio-high">
+                    <input type="radio" id="numRooms-priority-high" name="numRooms">
+                    <label for="numRooms-priority-high">High Priority</label>
+                  </div>
 
-<!-- TODO: EDIT this button to do something -->
-					<footer>
-						<a href="#" class="button">Get Started</a>
-					</footer>
-				</div>
-			</section>
+                  <!-- Number of Bedrooms-->
+                  <div class="6u 12u$(xsmall)">
+                    <input type="number" name="numBedrooms" id="numBedrooms" value="" placeholder="Number of Bedrooms">
+                  </div>
+                  <!-- Number of Bedrooms Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="bedrooms-priority-low" name="numBedrooms" checked>
+                    <label for="bedrooms-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="bedrooms-priority-normal" name="numBedrooms">
+                    <label for="bedrooms-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small) radio-high">
+                    <input type="radio" id="bedrooms-priority-high" name="numBedrooms">
+                    <label for="bedrooms-priority-high">High Priority</label>
+                  </div>
+
+                  <!-- Number of Baths-->
+                  <div class="6u 12u$(xsmall)">
+                    <input type="number" name="numBaths" id="numBaths" value="" placeholder="Number of Baths">
+                  </div>
+                  <!-- Number of Baths Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="numBaths-priority-low" name="numBaths" checked>
+                    <label for="numBaths-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="numBaths-priority-normal" name="numBaths">
+                    <label for="numBaths-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small) radio-high">
+                    <input type="radio" id="numBaths-priority-high" name="numBaths">
+                    <label for="numBaths-priority-high">High Priority</label>
+                  </div>
+
+                  <!-- Garage-->
+                  <div class="6u 12u$(small)">
+                    <input type="checkbox" id="garage" name="garage">
+                    <label for="garage">Garage</label>
+                  </div>
+                  <!-- Garage Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="garage-priority-low" name="garage" checked>
+                    <label for="garage-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="garage-priority-normal" name="garage">
+                    <label for="garage-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small) radio-high">
+                    <input type="radio" id="garage-priority-high" name="garage">
+                    <label for="garage-priority-high">High Priority</label>
+                  </div>
+
+                  <!-- Pool-->
+                  <div class="6u 12u$(small)">
+                    <input type="checkbox" id="pool" name="pool">
+                    <label for="pool">Pool</label>
+                  </div>
+                  <!-- Pool Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="pool-priority-low" name="pool" checked>
+                    <label for="pool-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="pool-priority-normal" name="pool">
+                    <label for="pool-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small) radio-high">
+                    <input type="radio" id="pool-priority-high" name="pool">
+                    <label for="pool-priority-high">High Priority</label>
+                  </div>
+
+                  <!-- Waterfront-->
+                  <div class="6u 12u$(small)">
+                    <input type="checkbox" id="waterfront" name="waterfront">
+                    <label for="waterfront">Waterfront</label>
+                  </div>
+                  <!-- Waterfront Priority -->
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="waterfront-priority-low" name="waterfront" checked>
+                    <label for="waterfront-priority-low">Low Priority</label>
+                  </div>
+                  <div class="2u 12u$(small)">
+                    <input type="radio" id="waterfront-priority-normal" name="waterfront">
+                    <label for="waterfront-priority-normal">Normal Priority</label>
+                  </div>
+                  <div class="2u$ 12u$(small) radio-high">
+                    <input type="radio" id="waterfront-priority-high" name="waterfront">
+                    <label for="waterfront-priority-high">High Priority</label>
+                  </div>
 
 
-		<!-- Three -->
-			<section id="three" class="wrapper align-center">
-				<div class="inner">
-					<div class="flex flex-2">
-						<article>
-							<div class="image round">
-								<img src="images/trends_home.jpg" alt="Pic 01" />
-							</div>
-							<header>
-								<h3>Unpack Market Trends<br />to Invest Responsibly</h3>
-							</header>
-							<p>New housing developments, changing infrastructure, the<br />growing impact of climate: real estate pricing is increasingly<br />complex. In the realm of real estate, understanding<br />market direction is crucial to protecting your investment.</p>
-							<p>Examine past and present trends in the real estate market<br />to demystify property ownership and maximize buying power.<br />Finding your dream neighborhood is a click away.</p>
-							<footer>
-								<a href="#" class="button">Learn More</a>
-							</footer>
-						</article>
-						<article>
-							<div class="image round">
-								<img src="images/data_home.jpg" alt="Pic 02" />
-							</div>
-							<header>
-								<h3>Ditch Market Ambiguity<br />and Reclaim Buyer Power</h3>
-							</header>
-							<p>Buying a house shouldn't be a mystery - but without insider<br />knowledge of fair market pricing, it's easy to get lost. We aim to<br />democratize the valuation process so everyone can be<br />empowered to own a home.</p>
-							<p>Get data driven housing price estimates from our unique<br />valuation estimator, which uses 25 customizable factors to generate<br />price estimates within $10,000 of true sale price.</p>
-							<footer>
-								<a href="#" class="button">Calculate Now</a>
-							</footer>
-						</article>
-					</div>
-				</div>
-			</section>
+                  <div class="6u 12u$(xsmall)">
+                    <input type="text" name="demo-name" id="NumCars" value="" placeholder="NumCars">
+                  </div>
+                  <div class="6u$ 12u$(xsmall)">
+                    <input type="email" name="demo-email" id="NumBeans" value="" placeholder="NumBeans">
+                  </div>
+                  <div class="6u$ 12u$(xsmall)">
+                    <input type="email" name="demo-email" id="NumBaths" value="" placeholder="NumBaths">
+                  </div>
+
+
+                  <!-- Break -->
+                  <div class="12u$">
+                    <ul class="actions">
+                      <button type="button" onclick="callAPI(document.getElementById('NumCars').value, document.getElementById('NumBaths').value, document.getElementById('NumBeans').value)" >Calculate Price</button>
+                    </ul>
+                  </div>
+
+                </div>
+              </form>
+
+          <hr />
+
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -115,7 +271,7 @@
 							<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
 						</div>
 						<ul class="actions">
-							<li><input value="Send Message" class="button alt" type="submit"></li>
+							<li><input value="Send Message" class="button special big" type="submit"></li>
 						</ul>
 					</form>
 
